@@ -25,20 +25,18 @@ class drink_water():
 					if response == 'y' or response == 'Y':
 						done += 1
 						self.log_file.write('drank water at {}  --  {}\n'.format(time_now(),today_date()))
-						print('good')
-						print('sleeping rn! work rn!')
+						print(f'{int(self.daily_water_goal-done)} more to gooo!')
 						time.sleep(self.random_duration_inbetween)
 
 					elif response == 'n' or response == 'N':
 						print('Make sure you drink next time!')
-						print('sleeping rn! work rn!')
 						time.sleep(self.random_duration_inbetween)
 					
 				else:
 					print('No response!')
 					print('Make sure you drink next time!')
-					print('sleeping rn! work rn!')
 					time.sleep(self.random_duration_inbetween)
+					print("-------------------------###----------------------------")
 					continue
 				
 
