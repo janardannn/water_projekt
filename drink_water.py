@@ -9,19 +9,35 @@ from playsound import playsound
 class drink_water():
 
 	def __init__(self):
-		self.daily_water_goal = 15 
+
+		# how much glasses of water in a day? well it turns out that 15 is a 
+		# very good number hence, daily water goal is set to 15 
+		self.daily_water_goal = 15  
+		# time interval between successive glasses (45min to 90min)
 		self.random_duration_inbetween = random.randint(2750,5450)
+		# incase you missed, prompts you again within 15-30 mins
+		self.random_missed_duration = random.randint(900,1800)
+		# to keep record of when you drank water
 		self.log_file = open(r'/home/ironman/MySCripts/projekts/water_projekt/water.log','a+')
 
 	def call_for_action(self):
 		done = 0
 		for k in range(1,self.daily_water_goal+1):
 			if done <= self.daily_water_goal:
+				# using notify-send subprocess in linux and macos to send notifications
+				# make sure DND is turned off 
 				subprocess.call(['notify-send','Drink More Water','less water less mental efficiency'])
+
+				# using the playsound module to play a random sound
+				# as notifications are missed most of the time
 				playsound('Sunflower.mp3')
+				# input prompt
 				print('Drank water?(y/n): (press enter)')
+
+				# using sys, select module to take a user input with timeout
 				i, o, e = select.select( [sys.stdin], [], [], 330 )
 				
+				# if there is any input from user
 				if (i):
 					response = sys.stdin.readline().strip()
 					if response == 'y' or response == 'Y':
@@ -34,13 +50,13 @@ class drink_water():
 					elif response == 'n' or response == 'N':
 						print('Make sure you drink next time!')
 						print("-------------------------###----------------------------")
-						time.sleep(self.random_duration_inbetween)
-					
+						time.sleep(self.random_missed_duration)
+				# else just cotinue	
 				else:
 					print('No response!')
 					print('Make sure you drink next time!')
 					print("-------------------------###----------------------------")
-					time.sleep(self.random_duration_inbetween)
+					time.sleep(self.random_missed_duration)
 
 			else:
 				self.log_file.close()
