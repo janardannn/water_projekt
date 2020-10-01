@@ -22,21 +22,27 @@ class drink_water():
 		self.log_file = open(r'/home/ironman/MySCripts/projekts/water_projekt/water.log','a+')
 
 	def soundtrack(self):
+		# using the playsound module to play a random sound
+		# as notifications are missed most of the time
 		playsound(r'/home/ironman/MySCripts/projekts/water_projekt/Sunflower.mp3')
+
+	def spam_notifications(self):
+		# using notify-send subprocess in linux and macos to send notifications
+		# make sure DND is turned off
+		while True:
+			subprocess.call(['notify-send','Drink More Water','less water less mental efficiency'])
+		# sleep time between succesive notification(s)
+			time.sleep(5)
 
 	def call_for_action(self):
 		sound_trigger = multiprocessing.Process(target=self.soundtrack)
+		notification_trigger = multiprocessing.Process(target=self.spam_notifications)
 		done = 0
 		for k in range(1,self.daily_water_goal+1):
 			if done <= self.daily_water_goal:
-				# using notify-send subprocess in linux and macos to send notifications
-				# make sure DND is turned off 
-				subprocess.call(['notify-send','Drink More Water','less water less mental efficiency'])
-
-				# using the playsound module to play a random sound
-				# as notifications are missed most of the time
 				# input prompt
 				sound_trigger.start()
+				notification_trigger.start()
 				print('Drank water?(y/n): (press enter)')
 
 				# using sys, select module to take a user input with timeout
@@ -49,20 +55,41 @@ class drink_water():
 						done += 1
 						self.log_file.write('drank water at {}  --  {}\n'.format(time_now(),today_date()))
 						print(f'{int(self.daily_water_goal-done)} more to gooo!')
+
+						notification_trigger.terminate()
 						sound_trigger.terminate()
+
 						print("-------------------------###----------------------------")
 						time.sleep(self.random_duration_inbetween)
 
 					elif response == 'n' or response == 'N':
 						print('Make sure you drink next time!')
+
+						notification_trigger.terminate()
 						sound_trigger.terminate()
+
 						print("-------------------------###----------------------------")
 						time.sleep(self.random_missed_duration)
+
+					elif response == "" or response == " ":
+						done += 1
+						self.log_file.write('drank water at {}  --  {}\n'.format(time_now(),today_date()))
+						print(f'{int(self.daily_water_goal-done)} more to gooo!')
+
+						notification_trigger.terminate()
+						sound_trigger.terminate()
+
+						print("-------------------------###----------------------------")
+						time.sleep(self.random_duration_inbetween)
+
 				# else just cotinue	
 				else:
 					print('No response!')
 					print('Make sure you drink next time!')
+
+					notification_trigger.terminate()
 					sound_trigger.terminate()
+
 					print("-------------------------###----------------------------")
 					time.sleep(self.random_missed_duration)
 
