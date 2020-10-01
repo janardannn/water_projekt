@@ -4,7 +4,8 @@ import time
 import sys
 import select
 from time_and_date import *
-##
+from playsound import playsound
+
 class drink_water():
 
 	def __init__(self):
@@ -17,6 +18,7 @@ class drink_water():
 		for k in range(1,self.daily_water_goal+1):
 			if done <= self.daily_water_goal:
 				subprocess.call(['notify-send','Drink More Water','less water less mental efficiency'])
+				playsound('Sunflower.mp3')
 				print('Drank water?(y/n): (press enter)')
 				i, o, e = select.select( [sys.stdin], [], [], 330 )
 				
@@ -26,18 +28,23 @@ class drink_water():
 						done += 1
 						self.log_file.write('drank water at {}  --  {}\n'.format(time_now(),today_date()))
 						print(f'{int(self.daily_water_goal-done)} more to gooo!')
+						print("-------------------------###----------------------------")
 						time.sleep(self.random_duration_inbetween)
 
 					elif response == 'n' or response == 'N':
 						print('Make sure you drink next time!')
+						print("-------------------------###----------------------------")
 						time.sleep(self.random_duration_inbetween)
 					
 				else:
 					print('No response!')
 					print('Make sure you drink next time!')
-					time.sleep(self.random_duration_inbetween)
 					print("-------------------------###----------------------------")
-					continue
+					time.sleep(self.random_duration_inbetween)
+
+			else:
+				self.log_file.close()
+					
 				
 
 drink_water_healthy_life = drink_water()
