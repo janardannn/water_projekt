@@ -94,16 +94,24 @@ class drink_water():
 
 					print("-------------------------###----------------------------")
 					time.sleep(self.random_missed_duration)
+			elif time_now() > "23:25:25":
+				self.logfile.write('today {} glasses  -- {}'.format(done,today_date()))
+				self.logfile.write('-------------------------###----------------------------\n')
+				self.logfile.close()
+				break
 
 			else:
-				self.log_file.close()
+				self.logfile.write('today {} glasses  -- {}'.format(done,today_date()))
+				self.logfile.write('-------------------------###----------------------------\n')
+				self.logfile.close()
 					
 				
 ###### reading config.ini for paths
 parser = ConfigParser()
-parser.read('config.ini')
+parser.read('/home/ironman/MySCripts/projekts/water_projekt/config.ini')
 path_to_logfile = parser.get('paths','logfile')
 path_to_soundtrack = parser.get('paths','soundtrack')
+####
 
 drink_water_healthy_life = drink_water(path_to_logfile,path_to_soundtrack)
 drink_water_healthy_life.call_for_action()
