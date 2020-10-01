@@ -6,10 +6,11 @@ import select
 import multiprocessing
 from time_and_date import *
 from playsound import playsound
+from configparser import ConfigParser
 
 class drink_water():
 
-	def __init__(self):
+	def __init__(self,path_to_logfile,path_to_soundtrack):
 
 		# how much glasses of water in a day? well it turns out that 15 is a 
 		# very good number hence, daily water goal is set to 15 
@@ -19,12 +20,13 @@ class drink_water():
 		# incase you missed, prompts you again within 15-30 mins
 		self.random_missed_duration = random.randint(900,1800)
 		# to keep record of when you drank water
-		self.log_file = open(r'/home/ironman/MySCripts/projekts/water_projekt/water.log','a+')
+		self.log_file = open(path_to_logfile,'a+')
 
 	def soundtrack(self):
 		# using the playsound module to play a random sound
 		# as notifications are missed most of the time
-		playsound(r'/home/ironman/MySCripts/projekts/water_projekt/Sunflower.mp3')
+		while True:
+			playsound(path_to_soundtrack)
 
 	def spam_notifications(self):
 		# using notify-send subprocess in linux and macos to send notifications
@@ -97,6 +99,11 @@ class drink_water():
 				self.log_file.close()
 					
 				
+###### reading config.ini for paths
+parser = ConfigParser()
+parser.read('config.ini')
+path_to_logfile = parser.get('paths','logfile')
+path_to_soundtrack = parser.get('paths','soundtrack')
 
-drink_water_healthy_life = drink_water()
+drink_water_healthy_life = drink_water(path_to_logfile,path_to_soundtrack)
 drink_water_healthy_life.call_for_action()
