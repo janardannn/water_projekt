@@ -3,6 +3,7 @@ import random
 import time
 import sys
 import select
+import multiprocessing
 from time_and_date import *
 from playsound import playsound
 
@@ -20,7 +21,11 @@ class drink_water():
 		# to keep record of when you drank water
 		self.log_file = open(r'/home/ironman/MySCripts/projekts/water_projekt/water.log','a+')
 
+	def soundtrack(self):
+		playsound(r'/home/ironman/MySCripts/projekts/water_projekt/Sunflower.mp3')
+
 	def call_for_action(self):
+		sound_trigger = multiprocessing.Process(target=self.soundtrack)
 		done = 0
 		for k in range(1,self.daily_water_goal+1):
 			if done <= self.daily_water_goal:
@@ -30,8 +35,8 @@ class drink_water():
 
 				# using the playsound module to play a random sound
 				# as notifications are missed most of the time
-				playsound('Sunflower.mp3')
 				# input prompt
+				sound_trigger.start()
 				print('Drank water?(y/n): (press enter)')
 
 				# using sys, select module to take a user input with timeout
@@ -44,17 +49,20 @@ class drink_water():
 						done += 1
 						self.log_file.write('drank water at {}  --  {}\n'.format(time_now(),today_date()))
 						print(f'{int(self.daily_water_goal-done)} more to gooo!')
+						sound_trigger.terminate()
 						print("-------------------------###----------------------------")
 						time.sleep(self.random_duration_inbetween)
 
 					elif response == 'n' or response == 'N':
 						print('Make sure you drink next time!')
+						sound_trigger.terminate()
 						print("-------------------------###----------------------------")
 						time.sleep(self.random_missed_duration)
 				# else just cotinue	
 				else:
 					print('No response!')
 					print('Make sure you drink next time!')
+					sound_trigger.terminate()
 					print("-------------------------###----------------------------")
 					time.sleep(self.random_missed_duration)
 
