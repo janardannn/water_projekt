@@ -62,6 +62,7 @@ class drink_water():
 						done += 1
 						self.log_file.write('drank water at {}  --  {}\n'.format(time_now(),today_date()))
 						print(f'{int(self.daily_water_goal-done)} more to gooo!')
+						print(f'{time_now()}')
 
 						notification_trigger.terminate()
 						sound_trigger.terminate()
@@ -71,6 +72,7 @@ class drink_water():
 
 					elif response == 'n' or response == 'N':
 						print('Make sure you drink next time!')
+						print(f'{time_now()}')
 
 						notification_trigger.terminate()
 						sound_trigger.terminate()
@@ -82,6 +84,7 @@ class drink_water():
 						done += 1
 						self.log_file.write('drank water at {}  --  {}\n'.format(time_now(),today_date()))
 						print(f'{int(self.daily_water_goal-done)} more to gooo!')
+						print(f'{time_now()}')
 
 						notification_trigger.terminate()
 						sound_trigger.terminate()
@@ -93,12 +96,14 @@ class drink_water():
 				else:
 					print('No response!')
 					print('Make sure you drink next time!')
+					print(f'{time_now()}')
 
 					notification_trigger.terminate()
 					sound_trigger.terminate()
 
 					print("-------------------------###----------------------------")
 					time.sleep(self.random_missed_duration)
+					
 			elif time_now() > "23:05:05":
 				self.logfile.write('today {} glasses  -- {}'.format(done,today_date()))
 				self.logfile.write('-------------------------###----------------------------\n')
