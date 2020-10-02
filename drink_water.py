@@ -19,6 +19,11 @@ class drink_water():
 		self.random_duration_inbetween = random.randint(2750,5450)
 		# incase you missed, prompts you again within 15-30 mins
 		self.random_missed_duration = random.randint(900,1800)
+
+		#testing
+		#self.random_duration_inbetween = random.randint(1,3)
+		#self.random_missed_duration = random.randint(1,3)
+
 		# to keep record of when you drank water
 		self.log_file = open(path_to_logfile,'a+')
 
@@ -37,10 +42,10 @@ class drink_water():
 			time.sleep(5)
 
 	def call_for_action(self):
-		sound_trigger = multiprocessing.Process(target=self.soundtrack)
-		notification_trigger = multiprocessing.Process(target=self.spam_notifications)
 		done = 0
 		for k in range(1,self.daily_water_goal+1):
+			sound_trigger = multiprocessing.Process(target=self.soundtrack)
+			notification_trigger = multiprocessing.Process(target=self.spam_notifications)
 			if done <= self.daily_water_goal:
 				# input prompt
 				sound_trigger.start()
