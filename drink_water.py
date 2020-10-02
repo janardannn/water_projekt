@@ -50,7 +50,7 @@ class drink_water():
 				# input prompt
 				sound_trigger.start()
 				notification_trigger.start()
-				print('Drank water?(y/n): (press enter)')
+				print(f'Drank water?(y/n): (press enter)   [{time_now()}]')
 
 				# using sys, select module to take a user input with timeout
 				i, o, e = select.select( [sys.stdin], [], [], 330 )
@@ -62,7 +62,6 @@ class drink_water():
 						done += 1
 						self.log_file.write('drank water at {}  --  {}\n'.format(time_now(),today_date()))
 						print(f'{int(self.daily_water_goal-done)} more to gooo!')
-						print(f'{time_now()}')
 
 						notification_trigger.terminate()
 						sound_trigger.terminate()
@@ -72,7 +71,6 @@ class drink_water():
 
 					elif response == 'n' or response == 'N':
 						print('Make sure you drink next time!')
-						print(f'{time_now()}')
 
 						notification_trigger.terminate()
 						sound_trigger.terminate()
@@ -84,7 +82,6 @@ class drink_water():
 						done += 1
 						self.log_file.write('drank water at {}  --  {}\n'.format(time_now(),today_date()))
 						print(f'{int(self.daily_water_goal-done)} more to gooo!')
-						print(f'{time_now()}')
 
 						notification_trigger.terminate()
 						sound_trigger.terminate()
@@ -96,7 +93,6 @@ class drink_water():
 				else:
 					print('No response!')
 					print('Make sure you drink next time!')
-					print(f'{time_now()}')
 
 					notification_trigger.terminate()
 					sound_trigger.terminate()
@@ -125,3 +121,4 @@ path_to_soundtrack = parser.get('paths','soundtrack')
 
 drink_water_healthy_life = drink_water(path_to_logfile,path_to_soundtrack)
 drink_water_healthy_life.call_for_action()
+
