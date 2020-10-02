@@ -94,7 +94,7 @@ class drink_water():
 
 					print("-------------------------###----------------------------")
 					time.sleep(self.random_missed_duration)
-			elif time_now() > "23:25:25":
+			elif time_now() > "23:05:05":
 				self.logfile.write('today {} glasses  -- {}'.format(done,today_date()))
 				self.logfile.write('-------------------------###----------------------------\n')
 				self.logfile.close()
